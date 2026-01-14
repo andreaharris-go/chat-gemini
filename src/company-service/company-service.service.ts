@@ -1,6 +1,6 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, isValidObjectId } from 'mongoose';
 import { CompanyService } from '../schemas/company-service.schema';
 import { CreateCompanyServiceDto } from './dto/create-company-service.dto';
 import { UpdateCompanyServiceDto } from './dto/update-company-service.dto';
@@ -12,6 +12,12 @@ export class CompanyServiceService {
     private companyServiceModel: Model<CompanyService>,
   ) {}
 
+  private validateObjectId(id: string): void {
+    if (!isValidObjectId(id)) {
+      throw new BadRequestException(`Invalid ID format: ${id}`);
+    }
+  }
+
   async create(createDto: CreateCompanyServiceDto): Promise<CompanyService> {
     const createdService = new this.companyServiceModel(createDto);
     return createdService.save();
@@ -22,6 +28,7 @@ export class CompanyServiceService {
   }
 
   async findOne(id: string): Promise<CompanyService> {
+    this.validateObjectId(id);
     const service = await this.companyServiceModel.findById(id).exec();
     if (!service) {
       throw new NotFoundException(`Company service with ID ${id} not found`);
@@ -33,8 +40,9 @@ export class CompanyServiceService {
     id: string,
     updateDto: UpdateCompanyServiceDto,
   ): Promise<CompanyService> {
+    this.validateObjectId(id);
     const updatedService = await this.companyServiceModel
-      .findByIdAndUpdate(id, { ...updateDto, updatedAt: new Date() }, { new: true })
+      .findByIdAndUpdate(id, updateDto, { new: true })
       .exec();
 
     if (!updatedService) {
@@ -44,6 +52,7 @@ export class CompanyServiceService {
   }
 
   async remove(id: string): Promise<CompanyService> {
+    this.validateObjectId(id);
     const deletedService = await this.companyServiceModel.findByIdAndDelete(id).exec();
     if (!deletedService) {
       throw new NotFoundException(`Company service with ID ${id} not found`);

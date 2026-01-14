@@ -1,6 +1,6 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, isValidObjectId } from 'mongoose';
 import { CompanyInfo } from '../schemas/company-info.schema';
 import { CreateCompanyInfoDto } from './dto/create-company-info.dto';
 import { UpdateCompanyInfoDto } from './dto/update-company-info.dto';
@@ -12,6 +12,12 @@ export class CompanyInfoService {
     private companyInfoModel: Model<CompanyInfo>,
   ) {}
 
+  private validateObjectId(id: string): void {
+    if (!isValidObjectId(id)) {
+      throw new BadRequestException(`Invalid ID format: ${id}`);
+    }
+  }
+
   async create(createDto: CreateCompanyInfoDto): Promise<CompanyInfo> {
     const createdInfo = new this.companyInfoModel(createDto);
     return createdInfo.save();
@@ -22,6 +28,7 @@ export class CompanyInfoService {
   }
 
   async findOne(id: string): Promise<CompanyInfo> {
+    this.validateObjectId(id);
     const info = await this.companyInfoModel.findById(id).exec();
     if (!info) {
       throw new NotFoundException(`Company info with ID ${id} not found`);
@@ -33,8 +40,9 @@ export class CompanyInfoService {
     id: string,
     updateDto: UpdateCompanyInfoDto,
   ): Promise<CompanyInfo> {
+    this.validateObjectId(id);
     const updatedInfo = await this.companyInfoModel
-      .findByIdAndUpdate(id, { ...updateDto, updatedAt: new Date() }, { new: true })
+      .findByIdAndUpdate(id, updateDto, { new: true })
       .exec();
 
     if (!updatedInfo) {
@@ -44,6 +52,7 @@ export class CompanyInfoService {
   }
 
   async remove(id: string): Promise<CompanyInfo> {
+    this.validateObjectId(id);
     const deletedInfo = await this.companyInfoModel.findByIdAndDelete(id).exec();
     if (!deletedInfo) {
       throw new NotFoundException(`Company info with ID ${id} not found`);
