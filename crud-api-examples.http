@@ -1,0 +1,142 @@
+### Company Info CRUD API Testing
+
+# Create Company Info
+POST http://localhost:3000/v1/company-info
+Content-Type: application/json
+
+{
+  "name": "TechCorp Solutions",
+  "description": "Leading technology solutions provider",
+  "mission": "To innovate and deliver cutting-edge technology solutions",
+  "vision": "To be the world's most trusted technology partner",
+  "founded": "2020",
+  "location": "San Francisco, CA",
+  "contact": {
+    "email": "info@techcorp.com",
+    "phone": "+1-555-0100",
+    "website": "https://techcorp.com"
+  }
+}
+
+###
+
+# Get All Company Info
+GET http://localhost:3000/v1/company-info
+
+###
+
+# Get Company Info by ID
+GET http://localhost:3000/v1/company-info/{{companyInfoId}}
+
+###
+
+# Update Company Info
+PUT http://localhost:3000/v1/company-info/{{companyInfoId}}
+Content-Type: application/json
+
+{
+  "description": "Updated description for the company",
+  "location": "New York, NY"
+}
+
+###
+
+# Delete Company Info
+DELETE http://localhost:3000/v1/company-info/{{companyInfoId}}
+
+###
+###
+
+### Company Product CRUD API Testing
+
+# Create Company Product
+POST http://localhost:3000/v1/company-product
+Content-Type: application/json
+
+{
+  "name": "AI-Powered CRM",
+  "description": "Next-generation CRM with AI capabilities",
+  "category": "Software",
+  "features": [
+    "AI-powered insights",
+    "Automated workflows",
+    "Real-time analytics",
+    "Multi-channel support"
+  ],
+  "price": 99.99,
+  "availability": "In Stock"
+}
+
+###
+
+# Get All Company Products
+GET http://localhost:3000/v1/company-product
+
+###
+
+# Get Company Product by ID
+GET http://localhost:3000/v1/company-product/{{productId}}
+
+###
+
+# Update Company Product
+PUT http://localhost:3000/v1/company-product/{{productId}}
+Content-Type: application/json
+
+{
+  "price": 89.99,
+  "availability": "Limited Stock"
+}
+
+###
+
+# Delete Company Product
+DELETE http://localhost:3000/v1/company-product/{{productId}}
+
+###
+###
+
+### Company Service CRUD API Testing
+
+# Create Company Service
+POST http://localhost:3000/v1/company-service
+Content-Type: application/json
+
+{
+  "name": "Cloud Migration Services",
+  "description": "Seamless migration to cloud infrastructure",
+  "category": "Consulting",
+  "features": [
+    "Zero downtime migration",
+    "Security compliance",
+    "24/7 support",
+    "Cost optimization"
+  ],
+  "pricing": "Starting at $5000/month"
+}
+
+###
+
+# Get All Company Services
+GET http://localhost:3000/v1/company-service
+
+###
+
+# Get Company Service by ID
+GET http://localhost:3000/v1/company-service/{{serviceId}}
+
+###
+
+# Update Company Service
+PUT http://localhost:3000/v1/company-service/{{serviceId}}
+Content-Type: application/json
+
+{
+  "pricing": "Starting at $4500/month",
+  "description": "Updated description for cloud migration"
+}
+
+###
+
+# Delete Company Service
+DELETE http://localhost:3000/v1/company-service/{{serviceId}}

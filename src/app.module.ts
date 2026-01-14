@@ -2,6 +2,9 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { FaqModule } from './faq/faq.module';
+import { CompanyInfoModule } from './company-info/company-info.module';
+import { CompanyProductModule } from './company-product/company-product.module';
+import { CompanyServiceModule } from './company-service/company-service.module';
 
 @Module({
   imports: [
@@ -17,6 +20,9 @@ import { FaqModule } from './faq/faq.module';
       inject: [ConfigService],
     }),
     FaqModule,
+    CompanyInfoModule,
+    CompanyProductModule,
+    CompanyServiceModule,
   ],
 })
 export class AppModule {}
