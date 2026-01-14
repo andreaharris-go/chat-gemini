@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GoogleGenerativeAI, GenerativeModel } from '@google/generative-ai';
 import { ConfigService } from '@nestjs/config';
 import { CompanyInfo } from '../schemas/company-info.schema';
 import { CompanyService } from '../schemas/company-service.schema';
@@ -10,11 +10,23 @@ import { ChatHistory } from '../schemas/chat-history.schema';
 import { FaqRequestDto } from './dto/faq-request.dto';
 import { FaqResponseDto } from './dto/faq-response.dto';
 
+interface QueryIntent {
+  needsCompanyInfo: boolean;
+  needsServices: boolean;
+  needsProducts: boolean;
+}
+
+interface RelevantData {
+  companyInfo?: CompanyInfo[];
+  services?: CompanyService[];
+  products?: CompanyProduct[];
+}
+
 @Injectable()
 export class FaqService {
   private readonly logger = new Logger(FaqService.name);
   private genAI: GoogleGenerativeAI;
-  private model: any;
+  private model: GenerativeModel;
 
   constructor(
     @InjectModel(CompanyInfo.name) private companyInfoModel: Model<CompanyInfo>,
@@ -53,11 +65,7 @@ export class FaqService {
     }
   }
 
-  private async understandQuery(message: string): Promise<{
-    needsCompanyInfo: boolean;
-    needsServices: boolean;
-    needsProducts: boolean;
-  }> {
+  private async understandQuery(message: string): Promise<QueryIntent> {
     // Simple keyword-based understanding (can be enhanced with more sophisticated NLP)
     const lowerMessage = message.toLowerCase();
     
@@ -85,8 +93,8 @@ export class FaqService {
     };
   }
 
-  private async queryRelevantData(queryIntent: any): Promise<any> {
-    const data: any = {};
+  private async queryRelevantData(queryIntent: QueryIntent): Promise<RelevantData> {
+    const data: RelevantData = {};
 
     if (queryIntent.needsCompanyInfo) {
       data.companyInfo = await this.companyInfoModel.find().exec();
@@ -103,7 +111,7 @@ export class FaqService {
     return data;
   }
 
-  private async generateResponse(message: string, context: any): Promise<string> {
+  private async generateResponse(message: string, context: RelevantData): Promise<string> {
     try {
       // Build a prompt with context
       const contextStr = JSON.stringify(context, null, 2);

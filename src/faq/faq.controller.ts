@@ -1,4 +1,4 @@
-import { Body, Controller, Post, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { FaqService } from './faq.service';
 import { FaqRequestDto } from './dto/faq-request.dto';
 import { FaqResponseDto } from './dto/faq-response.dto';
@@ -9,7 +9,7 @@ export class FaqController {
 
   @Post()
   async handleFaq(
-    @Body(ValidationPipe) faqRequest: FaqRequestDto,
+    @Body() faqRequest: FaqRequestDto,
   ): Promise<FaqResponseDto> {
     return this.faqService.processFaq(faqRequest);
   }
