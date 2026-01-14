@@ -1,0 +1,54 @@
+### FAQ Chat API Testing
+
+# Example 1: Ask about company
+POST http://localhost:3000/v1/faq
+Content-Type: application/json
+
+{
+  "client_id": "111",
+  "message": "what does your company do?"
+}
+
+###
+
+# Example 2: Ask about services
+POST http://localhost:3000/v1/faq
+Content-Type: application/json
+
+{
+  "client_id": "222",
+  "message": "what services do you offer?"
+}
+
+###
+
+# Example 3: Ask about products
+POST http://localhost:3000/v1/faq
+Content-Type: application/json
+
+{
+  "client_id": "333",
+  "message": "what products do you sell?"
+}
+
+###
+
+# Example 4: Ask about pricing
+POST http://localhost:3000/v1/faq
+Content-Type: application/json
+
+{
+  "client_id": "444",
+  "message": "how much does the CRM system cost?"
+}
+
+###
+
+# Example 5: Ask for contact information
+POST http://localhost:3000/v1/faq
+Content-Type: application/json
+
+{
+  "client_id": "555",
+  "message": "how can I contact your company?"
+}
