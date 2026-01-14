@@ -11,7 +11,8 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "init-db": "ts-node scripts/init-db.ts"
+    "init-db": "ts-node scripts/init-db.ts",
+    "validate": "ts-node scripts/validate-app.ts"
   },
   "keywords": [],
   "author": "",

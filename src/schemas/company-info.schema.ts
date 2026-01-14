@@ -21,7 +21,7 @@ export class CompanyInfo extends Document {
   @Prop()
   location: string;
 
-  @Prop()
+  @Prop({ type: Object })
   contact: {
     email?: string;
     phone?: string;
