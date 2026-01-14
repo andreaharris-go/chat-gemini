@@ -20,12 +20,6 @@ export class CompanyProduct extends Document {
 
   @Prop()
   availability: string;
-
-  @Prop({ type: Date, default: Date.now })
-  createdAt: Date;
-
-  @Prop({ type: Date, default: Date.now })
-  updatedAt: Date;
 }
 
 export const CompanyProductSchema = SchemaFactory.createForClass(CompanyProduct);

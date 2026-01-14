@@ -17,12 +17,6 @@ export class CompanyService extends Document {
 
   @Prop()
   pricing: string;
-
-  @Prop({ type: Date, default: Date.now })
-  createdAt: Date;
-
-  @Prop({ type: Date, default: Date.now })
-  updatedAt: Date;
 }
 
 export const CompanyServiceSchema = SchemaFactory.createForClass(CompanyService);

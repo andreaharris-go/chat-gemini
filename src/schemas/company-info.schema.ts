@@ -27,12 +27,6 @@ export class CompanyInfo extends Document {
     phone?: string;
     website?: string;
   };
-
-  @Prop({ type: Date, default: Date.now })
-  createdAt: Date;
-
-  @Prop({ type: Date, default: Date.now })
-  updatedAt: Date;
 }
 
 export const CompanyInfoSchema = SchemaFactory.createForClass(CompanyInfo);
