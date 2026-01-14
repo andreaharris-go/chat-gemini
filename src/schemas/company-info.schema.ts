@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-@Schema({ collection: 'company_info' })
+@Schema({ collection: 'company_info', timestamps: true })
 export class CompanyInfo extends Document {
   @Prop({ required: true })
   name: string;
@@ -27,12 +27,6 @@ export class CompanyInfo extends Document {
     phone?: string;
     website?: string;
   };
-
-  @Prop({ type: Date, default: Date.now })
-  createdAt: Date;
-
-  @Prop({ type: Date, default: Date.now })
-  updatedAt: Date;
 }
 
 export const CompanyInfoSchema = SchemaFactory.createForClass(CompanyInfo);
